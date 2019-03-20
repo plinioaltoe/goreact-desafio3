@@ -1,9 +1,18 @@
-import React, { Component } from 'react'
+import React from 'react'
+import { Provider } from 'react-redux'
 
-class App extends Component {
-  render() {
-    return <h1>Teste123</h1>
-  }
-}
+import './config/reactotron'
+import store from './store'
+
+import Routes from './routes'
+
+import GlobalStyle from './styles/global'
+
+const App = () => (
+  <Provider store={store}>
+    <GlobalStyle />
+    <Routes />
+  </Provider>
+)
 
 export default App
