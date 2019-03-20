@@ -9,22 +9,6 @@ import Lista from '../../components/Lista'
 import Mapa from '../../components/Mapa'
 
 class Main extends Component {
-  static propTypes = {
-    addRepositoryRequest: PropTypes.func.isRequired,
-    repository: PropTypes.shape({
-      loading: PropTypes.bool,
-      data: PropTypes.arrayOf(
-        PropTypes.shape({
-          id: PropTypes.number,
-          name: PropTypes.string,
-          description: PropTypes.string,
-          url: PropTypes.string,
-        }),
-      ),
-      error: PropTypes.oneOf([null, PropTypes.string]),
-    }).isRequired,
-  }
-
   render() {
     return (
       <Fragment>

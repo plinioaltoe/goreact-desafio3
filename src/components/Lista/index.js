@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 
 import './style.css'
 
-const Lista = ({ showModal, handleCloseModal, handleOpenModal }) => {
+const Lista = ({}) => {
   return (
-    <div class="card">
+    <div className="card">
       <div className="header">
         <div className="nickAndNameAndImg">
           <img className="avatarList" src="https://avatars2.githubusercontent.com/u/2254731?v=4" alt="Poker Face" />
@@ -23,10 +23,6 @@ const Lista = ({ showModal, handleCloseModal, handleOpenModal }) => {
   )
 }
 
-Lista.propTypes = {
-  showModal: PropTypes.bool.isRequired,
-  handleCloseModal: PropTypes.func.isRequired,
-  handleOpenModal: PropTypes.func.isRequired,
-}
+Lista.propTypes = {}
 
 export default Lista
