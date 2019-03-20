@@ -10,8 +10,8 @@ import './style.css'
 const Modal = ({ showModal, handleCloseModal, handlChangeRepository, repositoryInput, handleAddRepository }) => {
   return (
     <div>
-      <form onSubmit={handleAddRepository}>
-        <Dialog open={showModal} onClose={handleCloseModal} aria-labelledby="form-dialog-title">
+      <Dialog open={showModal} onClose={handleCloseModal} aria-labelledby="form-dialog-title">
+        <form onSubmit={handleAddRepository}>
           <div className="modal">
             <DialogTitle id="form-dialog-title" className="title">
               Adicionar novo usuário
@@ -23,19 +23,20 @@ const Modal = ({ showModal, handleCloseModal, handlChangeRepository, repositoryI
                 placeholder="Usuário do GitHub"
                 value={repositoryInput}
                 onChange={handlChangeRepository}
+                autoFocus={true}
               />
             </DialogContent>
             <DialogActions>
               <button onClick={handleCloseModal} className="buttonCancel">
                 Cancelar
               </button>
-              <button onClick={handleCloseModal} className="buttonOk">
+              <button type="submit" className="buttonOk">
                 Salvar
               </button>
             </DialogActions>
           </div>
-        </Dialog>
-      </form>
+        </form>
+      </Dialog>
     </div>
   )
 }

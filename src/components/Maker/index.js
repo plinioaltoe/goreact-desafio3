@@ -6,16 +6,22 @@ import './style.css'
 
 import 'mapbox-gl/dist/mapbox-gl.css'
 
-const Maker = ({ handleMapClick }) => {
+const Maker = ({ handleMapClick, avatarUrl, latitude, longitude, repositoryUrl }) => {
   return (
-    <Marker latitude={-23.5439948} longitude={-46.6065452} onClick={handleMapClick} captureClick={true}>
-      <img className="avatarMap" alt="avatar" src="https://avatars2.githubusercontent.com/u/2254731?v=4" />
+    <Marker latitude={latitude} longitude={longitude} onClick={handleMapClick} captureClick={true}>
+      <a href={repositoryUrl} target="_blank" rel="noopener noreferrer">
+        <img className="avatarMap" alt="avatar" src={avatarUrl} />
+      </a>
     </Marker>
   )
 }
 
 Maker.propTypes = {
   handleMapClick: PropTypes.func.isRequired,
+  avatarUrl: PropTypes.string.isRequired,
+  latitude: PropTypes.number.isRequired,
+  longitude: PropTypes.number.isRequired,
+  repositoryUrl: PropTypes.string.isRequired,
 }
 
 export default Maker

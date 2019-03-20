@@ -35,9 +35,9 @@ export default function repository(state = INITIAL_STATE, action) {
  * Actions
  */
 export const Creators = {
-  addRepositoryRequest: repository => ({
+  addRepositoryRequest: ({ repository, latitude, longitude }) => ({
     type: Types.ADD_REQUEST,
-    payload: { repository },
+    payload: { repository, latitude, longitude },
   }),
 
   addRepositorySuccess: data => ({

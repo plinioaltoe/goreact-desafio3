@@ -4,13 +4,18 @@ import { Creators as RepositoryActions } from '../ducks/repository'
 
 export function* addRepository(action) {
   try {
-    const { data } = yield call(api.get, `/repos/${action.payload.repository}`)
+    const { payload } = action
+    const { repository, latitude, longitude } = payload
+    const { data } = yield call(api.get, `/users/${repository}`)
 
     const repositoryData = {
       id: data.id,
-      name: data.full_name,
-      description: data.description,
-      url: data.html_url,
+      name: data.name,
+      login: data.login,
+      avatar_url: data.avatar_url,
+      repos_url: data.repos_url,
+      latitude,
+      longitude,
     }
 
     yield put(RepositoryActions.addRepositorySuccess(repositoryData))

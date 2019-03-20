@@ -13,15 +13,17 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 
 class Mapa extends Component {
   static propTypes = {
-    addFavoriteRequest: PropTypes.func.isRequired,
-    favorites: PropTypes.shape({
+    addRepositoryRequest: PropTypes.func.isRequired,
+    repos: PropTypes.shape({
       loading: PropTypes.bool,
       data: PropTypes.arrayOf(
         PropTypes.shape({
           id: PropTypes.number,
           name: PropTypes.string,
-          description: PropTypes.string,
-          url: PropTypes.string,
+          avatar_url: PropTypes.string,
+          repos_url: PropTypes.string,
+          latitude: PropTypes.number,
+          longitude: PropTypes.number,
         }),
       ),
       error: PropTypes.oneOf([null, PropTypes.string]),
@@ -36,6 +38,8 @@ class Mapa extends Component {
       longitude: -46.6065452,
       zoom: 14,
     },
+    repoLatitude: 0,
+    repoLongitude: 0,
     showModal: false,
     repositoryInput: '',
   }
@@ -60,8 +64,8 @@ class Mapa extends Component {
   }
 
   handleMapClick = e => {
-    this.handleOpenModal()
-    const [latitude, longitude] = e.lngLat
+    const [longitude, latitude] = e.lngLat
+    this.setState({ showModal: true, repoLatitude: latitude, repoLongitude: longitude })
   }
 
   handlChangeRepository = e => {
@@ -71,12 +75,15 @@ class Mapa extends Component {
   handleAddRepository = e => {
     e.preventDefault()
     const { addRepositoryRequest } = this.props
-    addRepositoryRequest(this.state.repositoryInput)
-    this.setState({ repositoryInput: '' })
-  }
+    const { repositoryInput, repoLatitude, repoLongitude } = this.state
 
-  handleOpenModal = () => {
-    this.setState({ showModal: true })
+    const action = {
+      repository: repositoryInput,
+      latitude: repoLatitude,
+      longitude: repoLongitude,
+    }
+    addRepositoryRequest(action)
+    this.setState({ repositoryInput: '', showModal: false })
   }
 
   handleCloseModal = () => {
@@ -86,6 +93,9 @@ class Mapa extends Component {
   render() {
     const { handleCloseModal, handleMapClick, state, handlChangeRepository, handleAddRepository } = this
     const { showModal, viewport, repositoryInput } = state
+    const { repos } = this.props
+    const { data: repositories } = repos
+
     return (
       <MapGL
         {...viewport}
@@ -96,7 +106,17 @@ class Mapa extends Component {
         }
         onViewportChange={viewport => this.setState({ viewport })}
       >
-        <Maker handleMapClick={handleMapClick} />
+        {repositories.map(repository => (
+          <Maker
+            key={repository.id}
+            handleMapClick={handleMapClick}
+            avatarUrl={repository.avatar_url}
+            latitude={repository.latitude}
+            longitude={repository.longitude}
+            repositoryUrl={repository.repos_url}
+          />
+        ))}
+
         <Modal
           showModal={showModal}
           handleCloseModal={handleCloseModal}
@@ -110,7 +130,7 @@ class Mapa extends Component {
 }
 
 const mapStateToProps = state => ({
-  repository: state.repository,
+  repos: state.repository,
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators(RepositoryActions, dispatch)
