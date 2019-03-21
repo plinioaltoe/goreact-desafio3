@@ -1,28 +1,63 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
+
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { Creators as RepositoryActions } from '../../store/ducks/repository'
 
 import './style.css'
 
-const Lista = ({}) => {
+const Lista = ({ repos, rmRepositoryRequest }) => {
+  const { data: repositories } = repos
+
   return (
     <div className="card">
-      <div className="header">
-        <div className="nickAndNameAndImg">
-          <img className="avatarList" src="https://avatars2.githubusercontent.com/u/2254731?v=4" alt="Poker Face" />
-          <div>
-            <div className="name">Diego</div>
-            <div className="nick">agora</div>
+      {repositories.map(repository => (
+        <Fragment key={repository.id}>
+          <div className="header">
+            <div className="nickAndNameAndImg">
+              <img className="avatarList" src={repository.avatar_url} alt="Poker Face" />
+              <div>
+                <div className="name">{repository.name}</div>
+                <div className="nick">{repository.login}</div>
+              </div>
+            </div>
+            <button className="excluir" onClick={() => rmRepositoryRequest(repository.id)}>
+              <i className="fa fa-times-circle" />
+            </button>
           </div>
-        </div>
-        <button className="excluir">
-          <i className="fa fa-times-circle" />
-        </button>
-      </div>
-      <hr />
+          <hr />
+        </Fragment>
+      ))}
     </div>
   )
 }
 
-Lista.propTypes = {}
+Lista.propTypes = {
+  rmRepositoryRequest: PropTypes.func.isRequired,
+  repos: PropTypes.shape({
+    loading: PropTypes.bool,
+    data: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+        name: PropTypes.string,
+        avatar_url: PropTypes.string,
+        repos_url: PropTypes.string,
+        latitude: PropTypes.number,
+        longitude: PropTypes.number,
+      }),
+    ),
+    error: PropTypes.oneOf([null, PropTypes.string]),
+  }).isRequired,
+}
 
-export default Lista
+const mapStateToProps = state => ({
+  repos: state.repository,
+})
+
+const mapDispatchToProps = dispatch => bindActionCreators(RepositoryActions, dispatch)
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Lista)

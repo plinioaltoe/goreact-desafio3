@@ -8,6 +8,8 @@ div.card {
   top: 10px;
   width: 300px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  overflow: auto;
+  max-height: 600px;
 }
 
 div.header {

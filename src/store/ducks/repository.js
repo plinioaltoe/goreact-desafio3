@@ -6,6 +6,7 @@ export const Types = {
   ADD_REQUEST: 'repository/ADD_REQUEST',
   ADD_SUCESS: 'repository/ADD_SUCESS',
   ADD_FAILURE: 'repository/ADD_FAILURE',
+  RM_SUCESS: 'repository/RM_SUCESS',
 }
 
 /**
@@ -25,7 +26,13 @@ export default function repository(state = INITIAL_STATE, action) {
       return { ...state, loading: false, error: null, data: [...state.data, action.payload.data] }
     case Types.ADD_FAILURE:
       return { ...state, loading: false, error: action.payload.error }
-
+    case Types.RM_SUCESS:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        data: state.data.filter(repository => repository.id !== action.payload.id),
+      }
     default:
       return state
   }
@@ -35,6 +42,11 @@ export default function repository(state = INITIAL_STATE, action) {
  * Actions
  */
 export const Creators = {
+  rmRepositoryRequest: id => ({
+    type: Types.RM_SUCESS,
+    payload: { id },
+  }),
+
   addRepositoryRequest: ({ repository, latitude, longitude }) => ({
     type: Types.ADD_REQUEST,
     payload: { repository, latitude, longitude },
