@@ -6,6 +6,9 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Creators as RepositoryActions } from '../../store/ducks/repository'
 
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
 import Maker from '../Maker'
 import Modal from '../Modal'
 
@@ -26,7 +29,7 @@ class Mapa extends Component {
           longitude: PropTypes.number,
         }),
       ),
-      error: PropTypes.oneOf([null, PropTypes.string]),
+      error: PropTypes.oneOfType([PropTypes.string]),
     }).isRequired,
   }
 
@@ -124,6 +127,8 @@ class Mapa extends Component {
           repositoryInput={repositoryInput}
           handleAddRepository={handleAddRepository}
         />
+
+        <ToastContainer />
       </MapGL>
     )
   }

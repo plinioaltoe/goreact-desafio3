@@ -47,7 +47,7 @@ Lista.propTypes = {
         longitude: PropTypes.number,
       }),
     ),
-    error: PropTypes.oneOf([null, PropTypes.string]),
+    error: PropTypes.oneOfType([PropTypes.string]),
   }).isRequired,
 }
 
